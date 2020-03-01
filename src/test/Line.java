@@ -27,7 +27,7 @@ public class Line{
 	}
 	
 	public String toString(){
-		return "["+this.lNum+"] "+ this.context;
+		return this.lNum+") "+ this.context;
 	}
 	
 	public void print(){

@@ -14,33 +14,24 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException,FileNotFoundException {
 		
-		Scanner in = new Scanner(System.in);
-		FileOps fops = new FileOps("input.txt",10);
-		String details;
-		int ch;
-		int ctr = 0;
-	
-		
-		
-		
-		fops.readLines();
-		
-		
-		
-		
 		
 		List list = new List();
 		
-		list.push(new LineItem(ctr,"Databases"));
-		ctr++;
-		list.push(new LineItem(ctr,"Introduction to Computer Programming"));
-		ctr++;
-		list.append(new LineItem(ctr,"SW Engineering & Object Oriented Programming"));
-		ctr++;
-		list.append(new LineItem(ctr,"Data Structures"));
-		ctr++;
+		//arguments check
+		if(args.length != 1 || !args[0].contains(".txt")) 
+		{
+			System.out.println("Usage: java Main.java xxx.txt");
+			System.exit(0);
+		}
 		
-		list.push(new LineItem(ctr,"Structured Programming"));
+		//open given .txt file, read line-wise
+		
+		FileOps fops = new FileOps(args[0],list,80);
+		
+		// read and fill the LineList
+		fops.readLines();
+		//print outcome			
+		list.print();
 		
 		
 		
