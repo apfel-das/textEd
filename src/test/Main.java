@@ -5,6 +5,7 @@ import util.List;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.*;
 
 public class Main {
 	
@@ -16,6 +17,9 @@ public class Main {
 		
 		
 		List list = new List();
+		Scanner in = new Scanner(System.in);
+		
+		String ch;
 		
 		//arguments check
 		if(args.length != 1 || !args[0].contains(".txt")) 
@@ -34,6 +38,26 @@ public class Main {
 		list.print();
 		
 		
+		do
+		{
+			
+			// use newline as delimiter
+			in.useDelimiter("\\n"); 
+			//get trimmed input
+			ch = in.nextLine().trim();
+			
+		
+			inputCheck(ch);
+		
+			
+		}while(ch.compareTo("q") != 0);
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -44,6 +68,31 @@ public class Main {
 		
 }
 	
+	/*
+	 * Checks given input for validity and prints a user message.
+	 * 
+	 * */
+	
+	private static boolean inputCheck(String inp) 
+	{
+		
+		//using a regex to check input
+		String valid = "[atdlnpqwx\\^\\+]";
+		Matcher m = Pattern.compile(valid).matcher(inp);
+		
+		
+		if(!m.matches()) 
+		{
+			System.out.println("Bad command");
+			return false;
+		}
+		else 
+		{
+			System.out.println("Ok");
+		}
+		
+		return true;
+	}
 
 
 }
