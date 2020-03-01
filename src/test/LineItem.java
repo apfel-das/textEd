@@ -19,7 +19,7 @@ public class LineItem implements Item {
 	
 	/*
 	 * Overwritten - Implemented methods
-	 * - Only key should be the course code.	 
+	 * - Only key should be the Line code.	 
 	 * - By this rule we override methods. 
 	 * */
 
