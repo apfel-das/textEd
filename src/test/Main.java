@@ -17,7 +17,7 @@ public class Main {
 		
 		List list = new List();
 		Scanner in = new Scanner(System.in);
-		User u = new User();
+		Session u = new User();
 		
 		
 		//arguments check
