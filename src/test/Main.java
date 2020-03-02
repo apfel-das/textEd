@@ -81,14 +81,37 @@ public class Main {
 		{
 		
 			case "a":
-				//add newline of text after the current line, new node after the current node
+				//add newline of text after the current line, new node after the current node.
+				
+				//prompt user
 				System.out.println("Type text for new line: "+u.getCurrentLine());
+				
+				//get a lineItem back.
 				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine()+1);
-				lines.append(u.getCurrentLine()+1, n);
 				
 				
+				//append at the right place.
+				lines.append(n, u.getCurrentLine()+1);
+								
 				break;
 			case "t":
+				
+				//add newline of text before the current line, new node after the current node.
+				
+				//prompt user.
+				System.out.println("Type text for new line: "+u.getCurrentLine());
+				
+				//get a lineItem back.
+				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine());
+				
+				//line index should remain steady.
+				u.setCurrentLine(u.getCurrentLine()-1); 
+				
+				
+				
+				//push at the right place.
+				lines.push(n, u.getCurrentLine());
+				
 				break;
 			case "d":
 				break;	
