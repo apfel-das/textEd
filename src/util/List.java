@@ -40,32 +40,54 @@ public class List {
 	
 	// utility methods
 	
-	
 	/*
-	 * Create a new node, then APPEND it at the START of the list.
+	 * Push (Insert before) a node at a certain position (specified by int pos).
+	 * 
 	 * 
 	 * */
 	
-	public Node push(Item t) 
+	public Node push(Item t, int pos) 
 	{
 		
 		//update info
 		length++;
 		charCount += ((Line) t.getData()).getContext().length();
 		
-		//creating a Node
-		Node n = new Node(t, head,null);
+		Node curr = seek(pos);
+		Node prev = curr.getPrev();
+		Node n = null;
 		
-		if(head != null) 
+		
+		
+		//head push
+		
+		if(curr == head) 
 		{
-			//backwards linkage
-			head.setPrev(n);
+			System.out.println("In here");
+			n = new Node(t,head,null);
+			
+			//fix the linkage
+			curr.setPrev(n);
+			
+			
+			head = n;
+			
+		}
+		else 
+		{
+			
+			//inbetween node
+			n = new Node(t,curr,prev);
+			curr.setPrev(n);
+			prev.setNext(n);
+			
+			
 		}
 		
-		//finding the new tail (Maybe change)
-		tail = findTail(head);
-		//re-setting head
-		head = n;
+		
+		this.modifyKeys(pos);
+		
+		
 		
 		
 		
@@ -138,7 +160,7 @@ public class List {
 	 * Adds a node at a specified (by int pos) position.
 	 * 
 	 * */
-	public Node append(int pos, Item t) 
+	public Node append(Item t, int pos) 
 	{
 		//markers
 		Node curr = head;
@@ -179,9 +201,14 @@ public class List {
 		}
 		else 
 		{
+			
 			//assign markers for an inbetween element.
 			curr = seek(currIndex);
 			prev = curr.getPrev();
+			
+			curr.print();
+			prev.print();
+			
 			
 			//node linkage
 			n.setPrev(prev);
@@ -193,6 +220,7 @@ public class List {
 			
 		}
 		
+		//change the lineNum according to the added element.
 		this.modifyKeys(pos+1);
 		
 		
@@ -239,6 +267,7 @@ public class List {
 			
 			}
 			
+			//destroy element's linkage
 			curr.setNext(null);
 			curr.setPrev(null);
 			
@@ -269,6 +298,10 @@ public class List {
 		
 	}
 	
+	/*
+	 * Print the list on a reversed order.
+	 * */
+	
 	public void printReverse() 
 	{
 		int ind = this.getLength() - 1;
@@ -296,16 +329,25 @@ public class List {
 		
 	}
 	
+	
+	/*
+	 * Call this and the list will be vanished into thin air.
+	 * 
+	 * */
 	public void destruct() 
 	{
 		
 		head = null;
+		tail = null;
 		length = 0;
 		charCount = 0;
 	}	
+	
+	
 	/*
 	 * Pops the first element (head) of the list. Returns the poped Item.
-	 * */
+	 *
+	 **/
 	
 	public Item pop() 
 	{
@@ -330,7 +372,7 @@ public class List {
 	
 	
 	/*
-	 * Finds the element at the given position, if any
+	 * Finds the element at the given position, if any.
 	 * 
 	 * */
 	
