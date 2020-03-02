@@ -1,5 +1,6 @@
 package test;
 import util.FileOps;
+import util.Item;
 import util.List;
 import util.Node;
 
@@ -17,7 +18,7 @@ public class Main {
 		
 		List list = new List();
 		Scanner in = new Scanner(System.in);
-		Session u = new User();
+		Session u = new Session();
 		
 		
 		//arguments check
@@ -48,7 +49,7 @@ public class Main {
 			
 			if(inputCheck(u.getCmd()) != null) 
 			{
-				execCommand(u,list);
+				execCommand(u,list,in);
 			}
 		
 			
@@ -70,15 +71,22 @@ public class Main {
 		
 }
 	
-	private static void execCommand(User u, List lines) 
+	private static void execCommand(Session u, List lines,Scanner input) 
 	{
 		
 		
 		Node curr;
+		Item n;
 		switch(u.cmd) 
 		{
 		
 			case "a":
+				//add newline of text after the current line, new node after the current node
+				System.out.println("Type text for new line: "+u.getCurrentLine());
+				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine()+1);
+				lines.append(u.getCurrentLine()+1, n);
+				
+				
 				break;
 			case "t":
 				break;
@@ -89,6 +97,7 @@ public class Main {
 				lines.print();				
 				break;
 			case "n":
+				u.alterPrintMode();
 				break;
 			case "p":
 				//print current line of text, current node of the list.
@@ -106,26 +115,28 @@ public class Main {
 				
 				break;
 			case "q":
+				//quit without saving modifications. Nothing to be done here.
 				break;
 			case "w":
 				break;
 			case "x":
 				break;
 			case "^":
-				//u.currentLine is already 0, nothing to do here.
+				//go to the first line of text, first node of the list.
+				u.setCurrentLine(0);
 				break;
 			case "+":
 				//go to next line of text, next node of the list.
 				if(u.getCurrentLine() == lines.getLength()-1) 
 				{
-					System.out.println("There is no further line, command will be ignored.");
+					System.out.println("There is no next line, command will be ignored.");
 					break;
 				}
 				u.setCurrentLine(u.getCurrentLine()+1);
 				break;
 			case "=":
 				//print current line index, current node index.
-				System.out.println("Line: "+(u.currentLine+1));
+				System.out.println("Line: "+(u.getCurrentLine()+1));
 				break;
 			case "#":
 				//print lines and characters

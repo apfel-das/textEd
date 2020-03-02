@@ -28,7 +28,9 @@ public class Line{
 	
 	public String toString(){
 		return this.lNum+") "+ this.context;
+		
 	}
+
 	
 	public void print(){
 		System.out.println(this.toString());

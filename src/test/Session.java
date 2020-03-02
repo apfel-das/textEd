@@ -2,7 +2,7 @@ package test;
 
 import java.io.*;
 
-public class Session
+public class Session 
 {
 	boolean raw;
 	int currentLine;
@@ -57,6 +57,13 @@ public class Session
 		this.f = f;
 	}
 
-	
+	public void alterPrintMode() 
+	{
+		if(raw)
+			raw = false;
+		else
+			raw = true;
+		
+	}
 
 }
