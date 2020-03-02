@@ -2,14 +2,14 @@ package test;
 
 import java.io.*;
 
-public class User 
+public class Session
 {
 	boolean raw;
 	int currentLine;
 	File f;
 	String cmd;
 	
-	public User(boolean r, int curr, File fp, String command) 
+	public Session(boolean r, int curr, File fp, String command) 
 	{
 		raw = r;
 		currentLine = curr;
@@ -17,7 +17,7 @@ public class User
 		cmd = command;
 	}
 	
-	public User() 
+	public Session() 
 	{
 		raw = false;
 		currentLine = 0;
