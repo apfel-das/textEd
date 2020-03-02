@@ -1,5 +1,8 @@
 package util;
 
+import test.Line;
+import test.LineItem;
+
 public class List {
 	
 	protected Node head;
@@ -48,7 +51,7 @@ public class List {
 		
 		//update info
 		length++;
-		charCount += t.getData().toString().length();
+		charCount += ((Line) t.getData()).getContext().length();
 		
 		//creating a Node
 		Node n = new Node(t, head,null);
@@ -68,6 +71,8 @@ public class List {
 		
 		return head;
 	}
+	
+	/*Given any node of a list, finds and returns the tail.*/
 	
 	public Node findTail(Node n) 
 	{
@@ -94,7 +99,7 @@ public class List {
 	{
 		//update info
 		length++;
-		charCount += t.getData().toString().length();
+		charCount += ((Line) t.getData()).getContext().length();
 		
 		
 		Node n = new Node(t);
@@ -110,12 +115,13 @@ public class List {
 			
 		}
 		
-		
-		// iterate until the last node
-		while(curr.getNext() != null) 
-		{
-			curr = curr.getNext();
-		}
+		//if there is a tail.
+		if(tail != null)
+			curr = tail;
+		else
+			curr = head;
+				
+			
 		
 		//append
 		curr.setNext(n);
@@ -123,6 +129,73 @@ public class List {
 		
 		//tail has changed 
 		tail = n;
+		
+		
+		return head;
+	}
+	
+	/*
+	 * Adds a node at a specified (by int pos) position.
+	 * 
+	 * */
+	public Node append(int pos, Item t) 
+	{
+		//markers
+		Node curr = head;
+		Node prev = head;
+		
+		//update info
+		length++;
+		charCount += ((Line) t.getData()).getContext().length();
+		
+		
+		
+		
+		Node n = new Node(t);
+		int currIndex = 0;
+		
+		// iterate until the given node.
+		while(currIndex != pos) 
+		{
+			
+			currIndex++;
+			
+		}
+		
+		
+		if(seek(currIndex) == null) 
+		{
+			//assign markers
+			curr = tail;
+			prev = tail;
+			
+			//fix linkage, tail is the new node.
+			curr.setNext(n);
+			n.setPrev(curr);
+			tail = n;
+			
+			
+			
+		}
+		else 
+		{
+			//assign markers for an inbetween element.
+			curr = seek(currIndex);
+			prev = curr.getPrev();
+			
+			//node linkage
+			n.setPrev(prev);
+			n.setNext(curr);
+			
+			//list linkage
+			curr.setPrev(n);
+			prev.setNext(n);
+			
+		}
+		
+		this.modifyKeys(pos+1);
+		
+		
 		
 		
 		return head;
@@ -283,6 +356,37 @@ public class List {
 		
 		
 		
+	}
+	
+	/*
+	 * Modify keys, lineNums starting from seed position.
+	 * 
+	 * */
+	public void modifyKeys(int seed) 
+	{
+		Node curr = seek(seed);
+		
+		//case last node 
+		if(curr == tail) 
+		{
+			LineItem t =(LineItem) curr.getValue();
+			Line l = (Line) t.getData();
+			l.setLNum(seed);
+		}
+	
+		while(curr != null)
+		{
+			//get Line from wrapper class
+			LineItem t =(LineItem) curr.getValue();
+			Line l = (Line) t.getData();
+			
+			//modify the lineNum
+			l.setLNum(seed);
+			
+			//proceed
+			curr = curr.getNext();
+			seed++;
+		}
 	}
 	
 

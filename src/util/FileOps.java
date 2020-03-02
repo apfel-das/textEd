@@ -7,7 +7,7 @@ public class FileOps {
 	File f;
 	BufferedReader r;
 	List lList;
-	int threshold;
+	static int threshold;
 	
 	public FileOps(String fNam, List l, int t) throws FileNotFoundException 
 	{
@@ -16,6 +16,8 @@ public class FileOps {
 		r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 		lList = l;
 		threshold = t;
+		
+		
 		
 	}
 	public Item readLines() throws IOException 
@@ -66,7 +68,7 @@ public class FileOps {
 	 * 
 	 * */
 	
-	public Item formatInput(String lContext, int lNum) 
+	public static Item formatInput(String lContext, int lNum) 
 	{
 		
 		if(lContext.length() > threshold) 
