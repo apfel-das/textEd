@@ -39,7 +39,7 @@ public class Main {
 		
 		do
 		{
-			
+			System.out.print("CMD> ");
 			// use newline as delimiter
 			in.useDelimiter("\\n"); 
 			//get trimmed input
@@ -52,7 +52,7 @@ public class Main {
 				execCommand(u,list,in);
 			}
 		
-			
+			System.out.println();
 		}while(u.getCmd().compareTo("q") != 0);
 		
 		
@@ -104,13 +104,13 @@ public class Main {
 				//get a lineItem back.
 				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine());
 				
-				//line index should remain steady.
-				u.setCurrentLine(u.getCurrentLine()-1); 
-				
-				
+							
 				
 				//push at the right place.
 				lines.push(n, u.getCurrentLine());
+				
+				//line index should remain steady.
+				u.setCurrentLine(u.getCurrentLine()+1); 
 				
 				break;
 			case "d":
