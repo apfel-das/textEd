@@ -10,6 +10,8 @@ public interface Item {
 
 	abstract public void print();
 	
+	abstract public void printRaw();
+	
 	abstract public Object getData();
 
 }

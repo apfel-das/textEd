@@ -33,5 +33,10 @@ public class Line{
 	public void print(){
 		System.out.println(this.toString());
 	}
-
+	
+	public void printRaw() 
+	{
+		System.out.println(this.context.toString());
+		
+	}
 }

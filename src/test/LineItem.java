@@ -45,6 +45,10 @@ public class LineItem implements Item {
 	public void print(){
 		this.line.print();
 	}
+	public void printRaw() 
+	{
+		this.line.printRaw();
+	}
 
 	@Override
 	public Object getData() {		

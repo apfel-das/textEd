@@ -1,0 +1,62 @@
+package test;
+
+import java.io.*;
+
+public class User 
+{
+	boolean raw;
+	int currentLine;
+	File f;
+	String cmd;
+	
+	public User(boolean r, int curr, File fp, String command) 
+	{
+		raw = r;
+		currentLine = curr;
+		f = fp;
+		cmd = command;
+	}
+	
+	public User() 
+	{
+		raw = false;
+		currentLine = 0;
+		f = null;
+		cmd = null;
+	}
+
+	public String getCmd() {
+		return cmd;
+	}
+
+	public void setCmd(String cmd) {
+		this.cmd = cmd;
+	}
+
+	public boolean isRaw() {
+		return raw;
+	}
+
+	public void setRaw(boolean raw) {
+		this.raw = raw;
+	}
+
+	public int getCurrentLine() {
+		return currentLine;
+	}
+
+	public void setCurrentLine(int currentLine) {
+		this.currentLine = currentLine;
+	}
+
+	public File getF() {
+		return f;
+	}
+
+	public void setF(File f) {
+		this.f = f;
+	}
+
+	
+
+}
