@@ -5,7 +5,6 @@ import test.*;
 public class FileOps {
 	
 	File f;
-	BufferedReader r;
 	List lList;
 	static int threshold;
 	
@@ -13,15 +12,15 @@ public class FileOps {
 	{
 		
 		f = new File(fNam);
-		r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 		lList = l;
 		threshold = t;
 		
 		
 		
 	}
-	public Item readLines() throws IOException 
+	public void retrieveContext() throws IOException,FileNotFoundException
 	{
+		BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 		String line = r.readLine();
 		int lCount = 0;
 		LineItem l;
@@ -52,15 +51,38 @@ public class FileOps {
 		
 		
 		
-		
-		
-		
-		
-		
-		return null;
+	
 		
 		
 	}
+	public void storeContext() throws IOException,FileNotFoundException 
+	{
+		
+		//create a writer object showing on the given file. Whatever inside the file f will be deleted.
+		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f)));
+		
+		Node curr = lList.getHead();
+		
+		//itterate through the whole text - list.
+		while(curr != null) 
+		{
+			
+			System.out.println(curr.getValue().toString());
+			
+			//write on file, line wise.
+			w.write(curr.getValue().toString());
+			w.newLine();
+			
+			//proceed
+			
+			curr = curr.getNext();
+		}
+		
+		w.close();
+	}
+	
+	
+	
 	
 	/*
 	 *  -Gets a String representing an ASCII text and a line Number. Returns a LineItem with info given. 
@@ -82,7 +104,7 @@ public class FileOps {
 		}
 		
 		//create a LineItem
-		LineItem l = new LineItem(lNum,lContext);
+		LineItem l = new LineItem(lContext);
 		
 		
 		return l;

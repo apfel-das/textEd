@@ -33,7 +33,7 @@ public class Main {
 		FileOps fops = new FileOps(args[0],list,80);
 	
 		// read and fill the LineList
-		fops.readLines();
+		fops.retrieveContext();
 		
 		//get user input, act accordingly after checking for "Bad Commands".
 		
@@ -49,7 +49,7 @@ public class Main {
 			
 			if(inputCheck(u.getCmd()) != null) 
 			{
-				execCommand(u,list,in);
+				execCommand(u,list,in,fops);
 			}
 		
 			System.out.println();
@@ -71,7 +71,7 @@ public class Main {
 		
 }
 	
-	private static void execCommand(Session u, List lines,Scanner input) 
+	private static void execCommand(Session u, List lines,Scanner input, FileOps f) throws FileNotFoundException, IOException 
 	{
 		
 		
@@ -126,6 +126,7 @@ public class Main {
 				//print current line of text, current node of the list.
 			
 				curr = lines.seek(u.getCurrentLine());
+				
 				//case raw format is not selected.
 				if(!u.isRaw()) 
 				{				
@@ -134,13 +135,15 @@ public class Main {
 				}
 				
 				// user has selected raw line printing.
-				curr.printRaw();
+				System.out.print((u.getCurrentLine()+1)+") ");
+				curr.print();
 				
 				break;
 			case "q":
 				//quit without saving modifications. Nothing to be done here.
 				break;
 			case "w":
+				f.storeContext();
 				break;
 			case "x":
 				break;

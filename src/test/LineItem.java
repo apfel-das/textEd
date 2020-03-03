@@ -13,41 +13,40 @@ public class LineItem implements Item {
 		this.line=l;
 	}
 	
-	public LineItem(int lNum, String context){
-		this.line=new Line(lNum, context);
+	public LineItem(String context){
+		this.line=new Line(context);
 	}
 	
 	/*
 	 * Overwritten - Implemented methods
-	 * - Only key should be the Line code.	 
-	 * - By this rule we override methods. 
-	 * */
+	 *
+	 */
 
 	@Override
 	public boolean less(Item item) {
 		
-		return line.getLNum() < (Integer)item.key();
-		//return line.getLNum().compareTo(item.key().toString()) < 0;
+		
+		return line.getContext().compareTo(item.key().toString()) < 0;
 	}
 
 	@Override
 	public boolean equals(Item item) {		
-		return (this.line.getLNum() == (Integer)item.key());
+		return (this.line.getContext().compareTo(item.key().toString()) == 0);
 		
 	}
 
 	@Override
 	public Object key() {
-		return this.line.getLNum();
+		return this.line.getContext();
 	}
 	
 	// a utility print function
 	public void print(){
 		this.line.print();
 	}
-	public void printRaw() 
+	public String toString() 
 	{
-		this.line.printRaw();
+		return this.line.toString();
 	}
 
 	@Override

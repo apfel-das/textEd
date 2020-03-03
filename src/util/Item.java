@@ -10,7 +10,7 @@ public interface Item {
 
 	abstract public void print();
 	
-	abstract public void printRaw();
+	abstract public String toString();
 	
 	abstract public Object getData();
 

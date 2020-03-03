@@ -2,21 +2,13 @@ package test;
 
 public class Line{
 
-	private int lNum;
 	private String context;
 	
-	public Line(int n, String info) {
-		this.lNum=n;
+	public Line(String info) 
+	{
 		this.context=info;
 	}
 
-	public int getLNum() {
-		return lNum;
-	}
-
-	public void setLNum(int n) {
-		this.lNum = n;
-	}
 
 	public String getContext() {
 		return context;
@@ -27,18 +19,15 @@ public class Line{
 	}
 	
 	public String toString(){
-		return this.lNum+") "+ this.context;
+		return this.context;
 		
 	}
 
 	
-	public void print(){
+	public void print()
+	{
 		System.out.println(this.toString());
 	}
 	
-	public void printRaw() 
-	{
-		System.out.println(this.context.toString());
-		
-	}
+
 }

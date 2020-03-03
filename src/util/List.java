@@ -28,6 +28,15 @@ public class List {
 	
 	// setters,getters
 	
+	public Node getHead() 
+	{
+		return this.head;
+	}
+	public Node getTail() 
+	{
+		return this.tail;
+	}
+	
 	public int getLength() 
 	{
 		return this.length;
@@ -85,7 +94,7 @@ public class List {
 		}
 		
 		
-		this.modifyKeys(pos);
+		
 		
 		
 		
@@ -206,10 +215,7 @@ public class List {
 			curr = seek(currIndex);
 			prev = curr.getPrev();
 			
-			curr.print();
-			prev.print();
-			
-			
+		
 			//node linkage
 			n.setPrev(prev);
 			n.setNext(curr);
@@ -220,10 +226,7 @@ public class List {
 			
 		}
 		
-		//change the lineNum according to the added element.
-		this.modifyKeys(pos+1);
-		
-		
+			
 		
 		
 		return head;
@@ -285,6 +288,7 @@ public class List {
 		while(curr != null) 
 		{
 			
+			System.out.print((ind+1)+") ");
 			curr.print();
 			
 			curr = curr.getNext();
@@ -311,7 +315,7 @@ public class List {
 		while(curr != null) 
 		{
 			
-			System.out.print("[" +(ind+1) +"]" );
+			System.out.print((ind+1)+") "  );
 			curr.print();
 			
 			curr = curr.getPrev();
@@ -400,36 +404,7 @@ public class List {
 		
 	}
 	
-	/*
-	 * Modify keys, lineNums starting from seed position.
-	 * 
-	 * */
-	public void modifyKeys(int seed) 
-	{
-		Node curr = seek(seed);
-		
-		//case last node 
-		if(curr == tail) 
-		{
-			LineItem t =(LineItem) curr.getValue();
-			Line l = (Line) t.getData();
-			l.setLNum(seed);
-		}
-	
-		while(curr != null)
-		{
-			//get Line from wrapper class
-			LineItem t =(LineItem) curr.getValue();
-			Line l = (Line) t.getData();
-			
-			//modify the lineNum
-			l.setLNum(seed);
-			
-			//proceed
-			curr = curr.getNext();
-			seed++;
-		}
-	}
+
 	
 
 }

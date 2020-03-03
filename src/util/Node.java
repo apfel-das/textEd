@@ -29,13 +29,7 @@ public class Node {
 			System.out.print("No data to display");
 		
 	}
-	public void printRaw() {
-		if(data != null)
-			data.printRaw();
-		else
-			System.out.print("No data to display");
-		
-	}
+	
 	
 	//getters - setters
 	public Item getValue() 
