@@ -66,9 +66,7 @@ public class FileOps {
 		//itterate through the whole text - list.
 		while(curr != null) 
 		{
-			
-			System.out.println(curr.getValue().toString());
-			
+					
 			//write on file, line wise.
 			w.write(curr.getValue().toString());
 			w.newLine();
