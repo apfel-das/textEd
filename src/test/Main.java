@@ -4,6 +4,7 @@ import util.Item;
 import util.List;
 import util.Node;
 
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,12 +31,12 @@ public class Main {
 		
 		//open given .txt file, read line-wise
 		
-		FileOps fops = new FileOps(args[0],list,80);
+		FileOps fops = new FileOps(args[0],list,80, 5 ,20);
 	
 		// read and fill the LineList
 		fops.retrieveContext();
 		
-		//get user input, act accordingly after checking for "Bad Commands".
+		//get user input, act accordingly after checking for invalid commands.
 		
 		do
 		{
@@ -146,6 +147,8 @@ public class Main {
 				f.storeContext();
 				break;
 			case "x":
+				f.storeContext();
+				u.setCmd("q");
 				break;
 			case "^":
 				//go to the first line of text, first node of the list.
@@ -184,6 +187,10 @@ public class Main {
 				
 				u.setCurrentLine(lines.getLength()-1);
 				break;
+			case "c":
+				
+				f.fillWordMap();
+				break;
 			
 		
 		}
@@ -202,7 +209,7 @@ public class Main {
 		
 		
 		//using a regex to check input and another one to check whether to print message to user or not.
-		String valid = "[atdlnpqwx=#\\-\\$\\^\\+]"; 
+		String valid = "[atdlnpqwxc=#\\-\\$\\^\\+]"; 
 		String printable = "[lp=#]"; 
 		
 		Matcher m = Pattern.compile(valid).matcher(inp);

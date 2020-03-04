@@ -1,17 +1,24 @@
 package util;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import test.*;
 
 public class FileOps {
 	
 	File f;
 	List lList;
+	private int minSize, maxSize;
 	static int threshold;
 	
-	public FileOps(String fNam, List l, int t) throws FileNotFoundException 
+	
+	public FileOps(String fNam, List l, int t,int low, int up) throws FileNotFoundException 
 	{
 		
 		f = new File(fNam);
+		minSize = low;
+		maxSize = up;
 		lList = l;
 		threshold = t;
 		
@@ -66,7 +73,8 @@ public class FileOps {
 		//itterate through the whole text - list.
 		while(curr != null) 
 		{
-					
+			
+			
 			//write on file, line wise.
 			w.write(curr.getValue().toString());
 			w.newLine();
@@ -109,6 +117,60 @@ public class FileOps {
 		
 	}
 	
+	
+	
+	public ArrayList<Word> fillWordMap()
+	{
+		int index = 0;
+		Node curr = lList.getHead();
+		String delim = "\\W+";
+		ArrayList<Word> words = new ArrayList<>();
+		
+		
+		//itterate through each line
+		while(curr != null) 
+		{
+			LineItem lineIt = (LineItem) curr.getValue();
+			Line l = (Line) lineIt.getData();
+			String[] ws = l.getContext().split(delim);
+			
+			
+			
+			for(int i=0; i<ws.length; i++) 
+			{
+				
+				//check the validity of the given word.
+				if(isValidWord(ws[i])) 
+				{
+					
+					//create a word object (string, int lNum)
+					Word w = new Word(ws[i],index+1);
+					
+					//append on an arraylist.
+					words.add(w);
+					
+				}
+				
+				
+			}
+			
+			index++;
+			curr = curr.getNext();
+			
+		}
+		
+		//sort the array list based on the "word"-key.
+		Collections.sort(words);
+	
+		///return the sorted arraylist.
+		
+		return words;
+		
+		
+		
+	}
+	
+	
 	/*
 	 * Stores a created line item in a double linked list.
 	 * */
@@ -122,6 +184,13 @@ public class FileOps {
 	
 	
 	
-	
+	private boolean isValidWord(String w) 
+	{
+		if(w.length() > maxSize || w.length() < minSize)
+			return false;
+		return true;
+		
+	}
+
 
 }
