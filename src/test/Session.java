@@ -15,6 +15,7 @@ public class Session
 		currentLine = curr;
 		f = fp;
 		cmd = command;
+	
 	}
 	
 	public Session() 

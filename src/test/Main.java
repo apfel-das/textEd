@@ -1,10 +1,11 @@
 package test;
 import util.FileOps;
+import util.FilePageAccess;
 import util.Item;
 import util.List;
 import util.Node;
 
-
+import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,7 +17,13 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException,FileNotFoundException {
 		
+		//define useful thresholds.
+		final int MAX_LINE = 80;
+		final int MIN_WORD = 2;
+		final int MAX_WORD = 20;
+		final int PAGESIZE = 128;
 		
+		//instantiate structures and objects.
 		List list = new List();
 		Scanner in = new Scanner(System.in);
 		Session u = new Session();
@@ -29,9 +36,17 @@ public class Main {
 			System.exit(0);
 		}
 		
-		//open given .txt file, read line-wise
 		
-		FileOps fops = new FileOps(args[0],list,80, 5 ,20);
+		//open given .txt file, read line-wise.
+		String fNam = args[0];
+		String dict = fNam+".ndx";
+		
+		
+		
+		//construct an instance of a utility class.
+		FileOps fops = new FileOps(fNam,list,MAX_LINE, MIN_WORD ,MAX_WORD);
+		FilePageAccess fpa= new FilePageAccess(PAGESIZE,MAX_WORD,dict);
+	
 	
 		// read and fill the LineList
 		fops.retrieveContext();
@@ -50,7 +65,7 @@ public class Main {
 			
 			if(inputCheck(u.getCmd()) != null) 
 			{
-				execCommand(u,list,in,fops);
+				execCommand(u,list,in,fops,fpa);
 			}
 		
 			System.out.println();
@@ -72,7 +87,7 @@ public class Main {
 		
 }
 	
-	private static void execCommand(Session u, List lines,Scanner input, FileOps f) throws FileNotFoundException, IOException 
+	private static void execCommand(Session u, List lines,Scanner input, FileOps f,FilePageAccess fpa) throws FileNotFoundException, IOException 
 	{
 		
 		
@@ -118,7 +133,11 @@ public class Main {
 				break;	
 			case "l":
 				//print all lines, nodes of the file
-				lines.print();				
+				
+				if(!u.isRaw())
+					lines.print();
+				else
+					lines.printRaw();				
 				break;
 			case "n":
 				u.alterPrintMode();
@@ -189,7 +208,15 @@ public class Main {
 				break;
 			case "c":
 				
-				f.fillWordMap();
+				//construct a dictionary and print the outcome.
+				fpa.fillDictionary(f.fillWordMap()); 
+				
+				//print info.
+				System.out.print("Ok. Datapages of "+fpa.getPageSize()+" :"+fpa.getDataPages());
+				
+				
+				
+				
 				break;
 			
 		
@@ -210,7 +237,7 @@ public class Main {
 		
 		//using a regex to check input and another one to check whether to print message to user or not.
 		String valid = "[atdlnpqwxc=#\\-\\$\\^\\+]"; 
-		String printable = "[lp=#]"; 
+		String printable = "[clp=#]"; 
 		
 		Matcher m = Pattern.compile(valid).matcher(inp);
 		Matcher mp = Pattern.compile(printable).matcher(inp);

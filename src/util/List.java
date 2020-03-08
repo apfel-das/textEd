@@ -302,6 +302,27 @@ public class List {
 		
 	}
 	
+	public void printRaw() 
+	{
+		int ind = 0;
+		Node curr = head;
+		
+		while(curr != null) 
+		{
+			
+			
+			curr.print();
+			
+			curr = curr.getNext();
+			ind++;
+		}
+		if(ind == 0) 
+		{
+			System.out.println("Empty File..");
+		}
+		
+		
+	}
 	/*
 	 * Print the list on a reversed order.
 	 * */

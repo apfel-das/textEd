@@ -7,13 +7,14 @@ import test.*;
 
 public class FileOps {
 	
-	File f;
-	List lList;
+	private File f;
+	private List lList;
 	private int minSize, maxSize;
 	static int threshold;
+	final int tokenSize = maxSize + 4;
 	
 	
-	public FileOps(String fNam, List l, int t,int low, int up) throws FileNotFoundException 
+	public FileOps(String fNam,List l, int t,int low, int up) throws FileNotFoundException 
 	{
 		
 		f = new File(fNam);
@@ -21,21 +22,28 @@ public class FileOps {
 		maxSize = up;
 		lList = l;
 		threshold = t;
+	
 		
 		
 		
 	}
+	
+	public File getFile() 
+	{
+		return this.f;
+	}
+	
 	public void retrieveContext() throws IOException,FileNotFoundException
 	{
 		BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
-		String line = r.readLine();
+		String line;
 		int lCount = 0;
 		LineItem l;
 		
 		
 		
 		//itterate through the file, line - wise		
-		while(line != null) 
+		while((line = r.readLine()) != null) 
 		{
 			
 			
@@ -43,12 +51,11 @@ public class FileOps {
 			l = (LineItem) formatInput(line.trim(), lCount);
 			
 			//store LineItem
+			if(l != null)
+				storeLine(lList,l);
 			
-			storeLine(lList,l);
 			
-			
-			//move to next line
-			line = r.readLine();
+			//count to next line.
 			lCount++;
 			
 		}
@@ -91,7 +98,7 @@ public class FileOps {
 	
 	
 	/*
-	 *  -Gets a String representing an ASCII text and a line Number. Returns a LineItem with info given. 
+	 *  -Gets a String representing an ASCII text and a line Number. Returns a LineItem with info given or null if given string is emptyLine. 
 	 * 	-Trims given string - input in case that this exceeds threshold characters.
 	 * 
 	 * */
@@ -108,6 +115,10 @@ public class FileOps {
 			
 			
 		}
+		
+		// exclude the empty or whitespaced line.
+		if(lContext.isEmpty())
+			return null;
 		
 		//create a LineItem
 		LineItem l = new LineItem(lContext);
@@ -162,6 +173,11 @@ public class FileOps {
 		//sort the array list based on the "word"-key.
 		Collections.sort(words);
 	
+		for(int i=0; i<words.size(); i++) 
+		{
+			System.out.println(words.get(i).getContext());
+		}
+		
 		///return the sorted arraylist.
 		
 		return words;
@@ -169,6 +185,9 @@ public class FileOps {
 		
 		
 	}
+	
+
+	
 	
 	
 	/*
@@ -182,7 +201,13 @@ public class FileOps {
 		
 	}
 	
-	
+	public void printWordMap(ArrayList<Word> map)
+	{
+		for(int i = 0; i<map.size(); i++) 
+		{
+			System.out.println(map.get(i).getContext()+" "+map.get(i).getLine());
+		}
+	}
 	
 	private boolean isValidWord(String w) 
 	{
