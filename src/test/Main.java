@@ -1,6 +1,5 @@
 package test;
-import util.FileOps;
-import util.FilePageAccess;
+import searchOps.*;
 import util.Item;
 import util.List;
 import util.Node;
@@ -13,6 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.*;
+
+import Files.FileOps;
+import Files.FilePageAccess;
 
 public class Main {
 	
@@ -58,6 +60,8 @@ public class Main {
 		//construct an instance of a utility class.
 		FileOps fops = new FileOps(fNam,list,MAX_LINE, MIN_WORD ,MAX_WORD);
 		FilePageAccess fpa= new FilePageAccess(PAGESIZE,MAX_WORD,dict);
+		
+		
 	
 	
 		// read and fill the LineList
@@ -237,6 +241,18 @@ public class Main {
 				
 				fpa.printFile();
 				
+				break;
+			case "s":
+				
+				SerialFileSearch sfs = new SerialFileSearch(fpa);
+				
+				System.out.print("Type word for search: ");
+				sfs.searchPage(input.nextLine().trim());
+				sfs.print();
+				
+			
+				
+				
 			
 		
 		}
@@ -256,7 +272,7 @@ public class Main {
 		
 		//using a regex to check input and another one to check whether to print message to user or not.
 		String valid = "[atdlnpqwxcvsb=#\\-\\$\\^\\+]"; 
-		String printable = "[cvlp=#]"; 
+		String printable = "[scvlp=#]"; 
 		
 		Matcher m = Pattern.compile(valid).matcher(inp);
 		Matcher mp = Pattern.compile(printable).matcher(inp);
