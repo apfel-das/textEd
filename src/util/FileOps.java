@@ -69,6 +69,13 @@ public class FileOps {
 		
 		
 	}
+	
+	/*
+	 * 
+	 * Store the context of a (double) linked list given as String, in a .txt file.
+	 * 
+	 * */
+	
 	public void storeContext() throws IOException,FileNotFoundException 
 	{
 		
@@ -128,7 +135,12 @@ public class FileOps {
 		
 	}
 	
-	
+	/*
+	 * Based on a list of multiple words, the function splits them and creates a sorted ArrayList of tuples<String word, Integer lineOfText> (see Word.java class).
+	 * Returns those on a lexicographically sorted  format. 
+	 * Sorting gets Implemented based on the fact that the tuples class (see Word.java) implements the Comparable Interface.
+	 * 
+	 * */
 	
 	public ArrayList<Word> fillWordMap()
 	{
@@ -173,11 +185,6 @@ public class FileOps {
 		//sort the array list based on the "word"-key.
 		Collections.sort(words);
 	
-		for(int i=0; i<words.size(); i++) 
-		{
-			System.out.println(words.get(i).getContext());
-		}
-		
 		///return the sorted arraylist.
 		
 		return words;
@@ -192,6 +199,7 @@ public class FileOps {
 	
 	/*
 	 * Stores a created line item in a double linked list.
+	 * 
 	 * */
 	
 	public void storeLine(List l, LineItem line) 
@@ -201,13 +209,10 @@ public class FileOps {
 		
 	}
 	
-	public void printWordMap(ArrayList<Word> map)
-	{
-		for(int i = 0; i<map.size(); i++) 
-		{
-			System.out.println(map.get(i).getContext()+" "+map.get(i).getLine());
-		}
-	}
+	/*
+	 * Decides for the validity of the given string based on thresholds. (see FileOps class constructor).
+	 * 
+	 * */
 	
 	private boolean isValidWord(String w) 
 	{

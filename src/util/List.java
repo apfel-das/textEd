@@ -1,7 +1,6 @@
 package util;
 
 import test.Line;
-import test.LineItem;
 
 public class List {
 	
@@ -60,7 +59,7 @@ public class List {
 		
 		//update info
 		length++;
-		charCount += ((Line) t.getData()).getContext().length();
+		charCount += countChars(((Line) t.getData()).getContext());
 		
 		Node curr = seek(pos);
 		Node prev = curr.getPrev();
@@ -92,18 +91,17 @@ public class List {
 			
 			
 		}
-		
-		
-		
-		
-		
-		
+
 		
 		
 		return head;
 	}
 	
-	/*Given any node of a list, finds and returns the tail.*/
+	
+	/*
+	 * Given any node of a list, finds and returns the tail.
+	 * 
+	 * */
 	
 	public Node findTail(Node n) 
 	{
@@ -130,7 +128,7 @@ public class List {
 	{
 		//update info
 		length++;
-		charCount += ((Line) t.getData()).getContext().length();
+		charCount += countChars(((Line) t.getData()).getContext());
 		
 		
 		Node n = new Node(t);
@@ -169,7 +167,7 @@ public class List {
 	 * Adds a node at a specified (by int pos) position.
 	 * 
 	 * */
-	public Node append(Item t, int pos) 
+	public void append(Item t, int pos) 
 	{
 		//markers
 		Node curr = head;
@@ -177,24 +175,14 @@ public class List {
 		
 		//update info
 		length++;
-		charCount += ((Line) t.getData()).getContext().length();
+		charCount += countChars(((Line) t.getData()).getContext());
 		
 		
 		
 		
 		Node n = new Node(t);
-		int currIndex = 0;
 		
-		// iterate until the given node.
-		while(currIndex != pos) 
-		{
-			
-			currIndex++;
-			
-		}
-		
-		
-		if(seek(currIndex) == null) 
+		if(seek(pos) == null) 
 		{
 			//assign markers
 			curr = tail;
@@ -212,7 +200,7 @@ public class List {
 		{
 			
 			//assign markers for an inbetween element.
-			curr = seek(currIndex);
+			curr = seek(pos);
 			prev = curr.getPrev();
 			
 		
@@ -226,48 +214,40 @@ public class List {
 			
 		}
 		
-			
-		
-		
-		return head;
 	}
 	
-	public Node delete(Item t) 
+	public void delete(int pos) 
 	{
-		// markers
-		Node curr = head;
-		Node prev = head;
+		Node curr = seek(pos);
+		Node prev = curr.getPrev();
 		
-		//iterate the list until finding the given Item, mark previous and current Nodes.
 		
-		while((curr != null) && (!t.equals(curr.getValue()))) 
-		{
-			prev = curr;
-			curr = curr.getNext();
-			
-		}
+		
 		
 		//the element has been found
 		if(curr != null) 
 		{
 			//update info
 			length--;
-			charCount -= curr.getValue().getData().toString().length();
+			charCount -= countChars(curr.getValue().getData().toString());
 			
 			//single node list or head is to be deleted
-			if( curr == prev) 
+			if( curr == head) 
 			{
 				head = head.getNext();
-				head.setPrev(null);
+				
 			}
 			else 
 			{
 				
 				//right linkage
 				prev.setNext(curr.getNext());
+				
 				//left linkage
-				curr.getNext().setPrev(prev);;
-			
+				if(curr != tail)
+					curr.getNext().setPrev(prev);;
+				
+					
 			}
 			
 			//destroy element's linkage
@@ -277,19 +257,24 @@ public class List {
 			
 		}
 		
-		return head;
+		
 	}
 	
-	public void print() 
+	public void print(boolean spec) 
 	{
 		int ind = 0;
 		Node curr = head;
 		
 		while(curr != null) 
 		{
+			if(!spec) 
+			{
+				System.out.print((ind+1)+") ");
+				curr.print();
+			}
+			else
+				curr.print();
 			
-			System.out.print((ind+1)+") ");
-			curr.print();
 			
 			curr = curr.getNext();
 			ind++;
@@ -425,7 +410,23 @@ public class List {
 		
 	}
 	
-
+	/*
+	 * Count the characters a given String contains using a regex.
+	 * */
 	
+	private int countChars(String t) 
+	{
+		int cc = 0;
+		String delim = "\\W+";
+		
+		String [] words = t.split(delim);
+		
+		for(int i = 0; i<words.length; i++) 
+		{
+			cc += words[i].length();
+		}
+		
+		return cc;
+	}
 
 }

@@ -4,10 +4,13 @@ import util.FilePageAccess;
 import util.Item;
 import util.List;
 import util.Node;
+import util.Word;
 
-import java.io.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -19,7 +22,7 @@ public class Main {
 		
 		//define useful thresholds.
 		final int MAX_LINE = 80;
-		final int MIN_WORD = 2;
+		final int MIN_WORD = 5;
 		final int MAX_WORD = 20;
 		final int PAGESIZE = 128;
 		
@@ -29,11 +32,20 @@ public class Main {
 		Session u = new Session();
 		
 		
+		
+		
 		//arguments check
 		if(args.length != 1 || !args[0].contains(".txt")) 
 		{
 			System.out.println("Usage: java Main.java xxx.txt");
-			System.exit(0);
+			
+			
+			//create a random fileName, based on date and time.
+			DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			LocalDateTime n = LocalDateTime.now();
+			args[0] = "auto_generated_file_"+dtf.format(n).toString()+".txt";
+			
+			
 		}
 		
 		
@@ -56,8 +68,10 @@ public class Main {
 		do
 		{
 			System.out.print("CMD> ");
+			
 			// use newline as delimiter
 			in.useDelimiter("\\n"); 
+			
 			//get trimmed input
 			u.setCmd(in.nextLine().trim());
 			
@@ -69,10 +83,12 @@ public class Main {
 			}
 		
 			System.out.println();
-		}while(u.getCmd().compareTo("q") != 0);
+		}while(u.getCmd().compareTo("q") != 0 && u.getCmd().compareTo("x") != 0);
 		
 		
+		// free resources used.
 		
+		fpa.close();
 		
 		
 		
@@ -93,6 +109,7 @@ public class Main {
 		
 		Node curr;
 		Item n;
+		
 		switch(u.cmd) 
 		{
 		
@@ -103,7 +120,7 @@ public class Main {
 				System.out.println("Type text for new line: "+u.getCurrentLine());
 				
 				//get a lineItem back.
-				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine()+1);
+				n = new LineItem(input.nextLine());
 				
 				
 				//append at the right place.
@@ -118,8 +135,7 @@ public class Main {
 				System.out.println("Type text for new line: "+u.getCurrentLine());
 				
 				//get a lineItem back.
-				n = FileOps.formatInput(input.nextLine().trim(),u.getCurrentLine());
-				
+				n = new LineItem(input.nextLine().trim());
 							
 				
 				//push at the right place.
@@ -130,14 +146,15 @@ public class Main {
 				
 				break;
 			case "d":
+				
+				lines.delete(u.getCurrentLine());
+				
 				break;	
 			case "l":
-				//print all lines, nodes of the file
 				
-				if(!u.isRaw())
-					lines.print();
-				else
-					lines.printRaw();				
+				//print all lines, nodes of the file
+				lines.print(u.isRaw());				
+				
 				break;
 			case "n":
 				u.alterPrintMode();
@@ -147,14 +164,14 @@ public class Main {
 			
 				curr = lines.seek(u.getCurrentLine());
 				
-				//case raw format is not selected.
+				//case raw format is  selected.
 				if(!u.isRaw()) 
 				{				
 					curr.print();
 					break;
 				}
 				
-				// user has selected raw line printing.
+				// user has selected full line printing.
 				System.out.print((u.getCurrentLine()+1)+") ");
 				curr.print();
 				
@@ -167,7 +184,6 @@ public class Main {
 				break;
 			case "x":
 				f.storeContext();
-				u.setCmd("q");
 				break;
 			case "^":
 				//go to the first line of text, first node of the list.
@@ -208,16 +224,19 @@ public class Main {
 				break;
 			case "c":
 				
+				
 				//construct a dictionary and print the outcome.
 				fpa.fillDictionary(f.fillWordMap()); 
 				
 				//print info.
-				System.out.print("Ok. Datapages of "+fpa.getPageSize()+" :"+fpa.getDataPages());
+				System.out.println("Ok. Datapages of "+fpa.getPageSize()+" bytes :"+fpa.getDataPages());
 				
-				
-				
-				
+									
 				break;
+			case "v":
+				
+				fpa.printFile();
+				
 			
 		
 		}
@@ -236,8 +255,8 @@ public class Main {
 		
 		
 		//using a regex to check input and another one to check whether to print message to user or not.
-		String valid = "[atdlnpqwxc=#\\-\\$\\^\\+]"; 
-		String printable = "[clp=#]"; 
+		String valid = "[atdlnpqwxcvsb=#\\-\\$\\^\\+]"; 
+		String printable = "[cvlp=#]"; 
 		
 		Matcher m = Pattern.compile(valid).matcher(inp);
 		Matcher mp = Pattern.compile(printable).matcher(inp);
