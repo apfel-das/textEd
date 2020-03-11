@@ -24,7 +24,7 @@ public class Main {
 		
 		//define useful thresholds.
 		final int MAX_LINE = 80;
-		final int MIN_WORD = 5;
+		final int MIN_WORD = 1;
 		final int MAX_WORD = 20;
 		final int PAGESIZE = 128;
 		

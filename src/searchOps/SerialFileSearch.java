@@ -56,7 +56,12 @@ public class SerialFileSearch implements FileSearch
 				if(tokens.get(i).getContext().compareTo(key) == 0) 
 				{
 					found.add(tokens.get(i));
-					isFound = true;
+					
+					//last element of any page might have another occurrence on next page.
+					if((i == tokens.size() - 1))
+						isFound = false;
+					else
+						isFound = true;
 				}
 			}
 			

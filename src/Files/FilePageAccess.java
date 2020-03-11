@@ -240,6 +240,9 @@ public class FilePageAccess
 		
 		for(int i = 0; i < w.size(); i++) 
 		{
+			//draw a line to distinguish pages.
+			if(i % (pageSize/tokenSize) == 0 )
+				System.out.println("-------------------------------------------------");
 			System.out.format("%-20s %-4d\n",w.get(i).getContext(),w.get(i).getLine());
 		}
 		if(w.isEmpty())
