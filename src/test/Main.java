@@ -246,11 +246,20 @@ public class Main {
 				
 				SerialFileSearch sfs = new SerialFileSearch(fpa);
 				
+				
 				System.out.print("Type word for search: ");
 				sfs.searchPage(input.nextLine().trim());
 				sfs.print();
+				break;
 				
-			
+			case "b":
+				
+				BinaryFileSearch bfs = new BinaryFileSearch(fpa);
+				System.out.print("Type word for search: ");
+				bfs.searchPage(input.nextLine().trim());
+				bfs.print();
+				
+				break;
 				
 				
 			
@@ -272,7 +281,7 @@ public class Main {
 		
 		//using a regex to check input and another one to check whether to print message to user or not.
 		String valid = "[atdlnpqwxcvsb=#\\-\\$\\^\\+]"; 
-		String printable = "[scvlp=#]"; 
+		String printable = "[bscvlp=#]"; 
 		
 		Matcher m = Pattern.compile(valid).matcher(inp);
 		Matcher mp = Pattern.compile(printable).matcher(inp);

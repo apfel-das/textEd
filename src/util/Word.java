@@ -35,12 +35,24 @@ public class Word implements Comparable<Word>
 
 
 
+	/*	
+	 * Sorting by line if context is the same,else by context <String>, this is to enable sorting by line in BinaryFileSearch.java.
+	 *	
+	 * It has no effect on sorting by actual context if given strings are different.
+	 *
+	 */
+	
 	@Override
 	public int compareTo(Word w) {
-		return this.context.compareTo(w.getContext()); 
+		
+		int line = this.context.compareTo(w.getContext());
+		
+		
+		return line == 0 ? this.line - w.getLine() : line; 
 		
 	}
 	
+
 
 	
 	
