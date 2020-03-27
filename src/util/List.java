@@ -1,7 +1,15 @@
 package util;
 
-import test.Line;
+import textEditor.Line;
 
+/**
+ * Represents a dynamic approach on the implementation of double linked list.
+ * 
+ * @author dasApfel
+ * @version 1.2
+ * @see util.Node
+ * 
+ */
 public class List {
 	
 	protected Node head;

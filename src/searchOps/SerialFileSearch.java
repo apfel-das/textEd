@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import Files.FilePageAccess;
 import util.Word;
 
+
+/**
+ * 
+ * @author dasApfel
+ * {@summary This is to implement a functionality of searching through pages in a serial way.}
+ * @implNote Implements FileSearch
+ *
+ */
 public class SerialFileSearch implements FileSearch 
 {
 	private int diskAccess;
@@ -24,15 +32,44 @@ public class SerialFileSearch implements FileSearch
 		
 	}
 	
-	
-	public int getTotalAccess() 
-	{
+	/**
+	 * Gets the number of total accesses.
+	 * @return totalAccess
+	 */
+	public int getTotalAccess() {
 		return totalAccess;
 	}
+	
+	 
+	/**
+	 * Gets the number of disk accesses.
+	 * @return diskAccess
+	 * */
+	public int getDiskAccess() 
+	{
+		return diskAccess;
+	}
 
+	/**
+	 * Resets the diskAccess counter to zero.
+	 * 
+	 */
+	public void deleteRecords() 
+	{
+		this.diskAccess = 0;
+	}
+	
 
+	
+	
+	/**
+	 * 
+	 * Searches the whole RandomAccessFile for a given key, page-wise performing a Serial Search.
+	 * @return Alters the {@code boolean isFound in class}
+	 * 
+	 */
 	@Override
-	public void searchPage(String key) {
+	public void search(String key) {
 		
 		
 		boolean isFound = false;
@@ -52,14 +89,21 @@ public class SerialFileSearch implements FileSearch
 			//parse it to seek for the key
 			for(int i =0; i < tokens.size(); i++) 
 			{
+				
 				//check for equality, then append.
 				if(tokens.get(i).getContext().compareTo(key) == 0) 
 				{
+					
 					found.add(tokens.get(i));
 					
 					//last element of any page might have another occurrence on next page.
-					if((i == tokens.size() - 1))
+					if((i == tokens.size() - 1)) 
+					{
 						isFound = false;
+						
+						//move to next page, then break.
+						this.filePages = currPage+2;
+					}
 					else
 						isFound = true;
 				}
@@ -73,6 +117,13 @@ public class SerialFileSearch implements FileSearch
 		
 		
 	}
+	
+	/**
+	 * Loads a page specified by {@code int n}. Updates records.
+	 * @return An ArrayList containing the contents loaded as Word -s objects
+	 * 
+	 */
+
 
 	@Override
 	public ArrayList<Word> loadPage(int n)  {
@@ -118,7 +169,10 @@ public class SerialFileSearch implements FileSearch
 			System.out.println("Key not found");
 		
 		
+		
 	}
+	
+
 	
 	
 

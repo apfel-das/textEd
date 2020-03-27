@@ -8,8 +8,19 @@ import java.util.ArrayList;
 
 import util.Word;
 
+/**
+ * 
+ * 
+ * @author dasApfel - Konstantinos Pantelis
+ * {@summary }
+ * A class to encapsulate methods for performing r/w operations on RandomAccessFiles representing a dictionary (see {@linkplain RandomAccessFile} for more).
+ *
+ */
+
 public class FilePageAccess 
 {
+	
+	
 	
 	private int pageSize;
 	private int tokenSize;
@@ -18,6 +29,14 @@ public class FilePageAccess
 	RandomAccessFile dF;
 	ArrayList<Word> words;
 	
+	
+	/**
+	 * 
+	 * @param ps Size of a datapage in bytes.
+	 * @param k  Tuple of {@literal <String, Integer>} maximum size in bytes.
+	 * @param f  The name of a {@linkplain RandomAccessFile} to write the data in bytes, passed as a {@literal String}.
+	 * @throws FileNotFoundException
+	 */
 	public FilePageAccess(int ps, int k,String f) throws FileNotFoundException 
 	{
 		pageSize = ps;
@@ -44,6 +63,17 @@ public class FilePageAccess
 	 * Filling gets to happen in quantums of pageSize which can easily be altered.
 	 * */
 
+	/**
+	 * 
+	 * Gets an {@linkplain ArrayList} of {@code Word.class} (tuples of {@literal <String, Integer> }) and fills a RandomAccessFile page - wise.
+	 * Uses a {@literal ByteBuffer} {@linkplain java.nio.ByteBuffer} in which {@code pageSize} bytes are allocated.
+	 * 
+	 * @param words Tuples of {@literal <String, Integer>} as an {@linkplain ArrayList}.
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 * @return Nothing, only informs the {@code int datapages} which depicts the number of pages present.
+	 * 
+	 */
 	
 	public void fillDictionary(ArrayList<Word> words) throws IOException,FileNotFoundException 
 	{
@@ -105,9 +135,10 @@ public class FilePageAccess
 		
 	}
 	
-	/*
-	 * Read a dictionary (RandomAccessFile) page - wise,at once.
-	 * Return the information retrieved in an arraylist. 
+	/**
+	 * 
+	 * Reads a dictionary ({@literal RandomAccessFile}) page - wise,at once by utilising {@code readPage(int pageNum)} method.
+	 * @return The information retrieved in an {@linkplain ArrayList}. 
 	 * 
 	 * 
 	 * */
@@ -134,6 +165,13 @@ public class FilePageAccess
 		
 	}
 
+	/**
+	 * Reads a page of the dictionary - {@literal RandomAccessFile} by utilizing a ByteBuffer (see {@linkplain java.nio.ByteBuffer})
+	 * @param pageNum Specifies the page to be accessed/read.
+	 * @return The page specified as an ArrayList (see {@linkplain java.util.ArrayList} for more).
+	 * @throws IOException
+	 * @throws NullPointerException
+	 */
 
 	public ArrayList<Word> readPage(int pageNum) throws IOException,NullPointerException 
 	{
@@ -199,9 +237,17 @@ public class FilePageAccess
 	}
 
 	/*
-	 * Fill the missing parts of a string -> byte conversion with spaces (ASCII 32).
+	 * Fills the missing parts of a string -> byte conversion with spaces (ASCII 32).
 	 * 
 	 * */
+	
+	/**
+	 * Space - padding of a byte array representing a {@literal String} key.
+	 * @param s A byte array containing the byte representation of a {@literal String} key.
+	 * @return	A byte array containing the byte representation of a {@literal String} key, filled up with spaces (ASCII 32) if {@code key.length < tokenSize } 
+	 *  
+	 */
+	
 	private byte[] paddBytes(byte s[]) 
 	{
 		
@@ -227,12 +273,21 @@ public class FilePageAccess
 	 * 
 	 * */
 	
+	/**
+	 * Closes open File.
+	 * @throws IOException
+	 */
 	public void close() throws IOException 
 	{
 		dF.close();
 		
 	}
 	
+	/**
+	 * prints a File content after retrieved.
+	 * @throws NullPointerException
+	 * @throws IOException
+	 */
 	public void printFile( ) throws NullPointerException, IOException 
 	{
 		

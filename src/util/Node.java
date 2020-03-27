@@ -1,10 +1,19 @@
 package util;
 
+
+/**
+ * Represents an abstract Node on a Double Linked List
+ * @author dasApfel
+ * @version 1.0
+ * @see util.Item
+ * 
+ */
 public class Node {
 	
 	private Item data;
 	private Node next;
 	private Node prev;
+
 	
 	//Constructors and basic methods
 	

@@ -1,13 +1,28 @@
-package Files;
+  package Files;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import test.*;
+import textEditor.*;
 import util.Item;
 import util.List;
 import util.Node;
 import util.Word;
+
+/**
+ * 
+ *
+ * {@summary }
+ * 	A class to encapsulate methods for performing r/w operations on regular Files
+ *  @author dasApfel - Konstantinos Pantelis
+ *  
+ *  @see  FileInputStream FileOutputStream InputStreamReader OutputStreamReader BufferedReader BufferedWriter
+ *  
+ * 
+ *  
+ 
+ */
+
 
 public class FileOps {
 	
@@ -17,6 +32,16 @@ public class FileOps {
 	static int threshold;
 	final int tokenSize = maxSize + 4;
 	
+	
+	/**
+	 * Class constructor
+	 * @param fNam Filename as String
+	 * @param l    List instance
+	 * @param t	   Threshold of a line
+	 * @param low  Word lower boundary
+	 * @param up   Word upper boundary
+	 * @throws FileNotFoundException
+	 */
 	
 	public FileOps(String fNam,List l, int t,int low, int up) throws FileNotFoundException 
 	{
@@ -32,10 +57,28 @@ public class FileOps {
 		
 	}
 	
+	/**
+	 * 
+	 * A getter function
+	 */
 	public File getFile() 
 	{
 		return this.f;
 	}
+	
+	/**
+	 * 
+	 * A function to read a file line - wise and store its context if between {@code (minSize, maxSize)} in a double linked list, else ignores the given context.
+	 * 
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 *
+	 * @implNote Uses the function {@link Files.FileOps.formatInput()} formatInput to decide whether input will be ignored or not.
+	 * @see  BufferdReader 
+	 * @see InputStreamReader
+	 * @see FileInputStream
+	 * 	
+	 */
 	
 	public void retrieveContext() throws IOException,FileNotFoundException
 	{
@@ -80,6 +123,20 @@ public class FileOps {
 	 * 
 	 * */
 	
+	/**
+	 * 
+	 * 	A function to store the context of a double linked list, in a .txt file.
+	 * 
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 *
+	 * @implNote Stores the context in the same input file by overwriting its content.
+	 * @see  BufferdWritter 
+	 * @see OutputStreamWriter 
+	 * @see FileOutputStream
+	 * 	
+	 */
+	
 	public void storeContext() throws IOException,FileNotFoundException 
 	{
 		
@@ -113,6 +170,33 @@ public class FileOps {
 	 * 	-Trims given string - input in case that this exceeds threshold characters.
 	 * 
 	 * */
+	/**
+	 * Constructs a LineItem if the given key {@literal String} matches the requirements. If not key is either trimmed or null is returned (empty key given) 
+	 * <br><strong>Key Requirements: </strong> 
+	 * 							
+	 * 	<blockquote>If a key is greater than {@code threshold} the key gets trimmed to fit the [0, threshold] range.</blockquote>
+	 *	<blockquote>If an empty key is given ({@code lContext.isEmpty() == true}) null is returned.</blockquote>	
+	 * 
+	 * 
+	 *  
+	 * 
+	 * 
+	 * 
+	 * 
+	 *
+	 * 
+	 * 
+	 * 
+	 *  
+	 * @param lContext A String key.
+	 * @param lNum The line in which this key is found inside the text.
+	 * @return A LineItem if the key is valid or null.
+	 * @see  util.Item 
+	 * @see  textEditorLineItem 
+	 * @see	 util.List
+	 * 
+	 * 
+	 */
 	
 	public static Item formatInput(String lContext, int lNum) 
 	{
@@ -146,6 +230,24 @@ public class FileOps {
 	 * 
 	 * */
 	
+	
+	/**
+	 *Itterates through the double linked list of Line objects ({@linkplain textEditor.Line}) and stores each valid word in an ArrayList of Word objects ({@linkplain util.Word}). 
+	 * <blockquote> The splitting procedure uses a regex in order to be performed. </blockquote>
+	 * <blockquote> <strong> Valid Words (Keys): </strong></blockquote>
+	 * <blockquote>
+	 * 		<ul>
+	 * 				<li> Any String that is delimited via the "\W+" regular expression is possibly valid.</li>
+	 * 				<li> Any possibly valid string that has a  {@code key.length()} &#8707; {@code [minSize, maxSize]} is valid. </li>
+	 * 	 	</ul> 
+	 * </blockquote>
+	 * @implNote <ul> 
+	 * 					<li>Validity of a possibly valid Word - Key is checked via the {@code isValidWord()} function. </li>
+	 * 					<li>The final ArrayList gets sorted after it is filled.</li> 
+	 * 			</ul>
+	 * 
+	 * @return An {@literal ArrayList} of Word (- s) objects retrieved from the list in an ascending lexicographical order.
+	 */
 	public ArrayList<Word> fillWordMap()
 	{
 		int index = 0;
@@ -186,10 +288,14 @@ public class FileOps {
 			
 		}
 		
+		
+		
 		//sort the array list based on the "word"-key.
 		Collections.sort(words);
 	
 		///return the sorted arraylist.
+		
+		
 		
 		return words;
 		
@@ -205,7 +311,12 @@ public class FileOps {
 	 * Stores a created line item in a double linked list.
 	 * 
 	 * */
-	
+	/**
+	 * Gets a List instance and a LineItem and appends the given Item at the end of the list.
+	 * @param l A list reference.
+	 * @param line A line item.
+	 * @return Nothing
+	 */
 	public void storeLine(List l, LineItem line) 
 	{
 		
@@ -217,6 +328,14 @@ public class FileOps {
 	 * Decides for the validity of the given string based on thresholds. (see FileOps class constructor).
 	 * 
 	 * */
+	/**
+	 * Gets a String representing an actual key and decides whether is valid or not by checking its length which should  &#8707; [minSize, maxSize].
+	 * @param w
+	 * @return True if given is valid, or False
+	 * 
+	 * 
+	 * @see Files.FileOps.fillWordMap
+	 */
 	
 	private boolean isValidWord(String w) 
 	{
